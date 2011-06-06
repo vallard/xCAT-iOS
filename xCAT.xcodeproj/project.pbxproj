@@ -1,0 +1,461 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5E7376CE139D33F0004DAD7D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E7376CD139D33F0004DAD7D /* UIKit.framework */; };
+		5E7376D0139D33F0004DAD7D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E7376CF139D33F0004DAD7D /* Foundation.framework */; };
+		5E7376D2139D33F0004DAD7D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E7376D1139D33F0004DAD7D /* CoreGraphics.framework */; };
+		5E7376D8139D33F0004DAD7D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5E7376D6139D33F0004DAD7D /* InfoPlist.strings */; };
+		5E7376DB139D33F0004DAD7D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7376DA139D33F0004DAD7D /* main.m */; };
+		5E7376DE139D33F0004DAD7D /* xCATAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7376DD139D33F0004DAD7D /* xCATAppDelegate.m */; };
+		5E7376E1139D33F0004DAD7D /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5E7376DF139D33F0004DAD7D /* MainWindow.xib */; };
+		5E7376E4139D33F0004DAD7D /* xCATViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7376E3139D33F0004DAD7D /* xCATViewController.m */; };
+		5E7376E7139D33F0004DAD7D /* xCATViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5E7376E5139D33F0004DAD7D /* xCATViewController.xib */; };
+		5E7376EE139D33F0004DAD7D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E7376CD139D33F0004DAD7D /* UIKit.framework */; };
+		5E7376EF139D33F0004DAD7D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E7376CF139D33F0004DAD7D /* Foundation.framework */; };
+		5E7376F0139D33F0004DAD7D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E7376D1139D33F0004DAD7D /* CoreGraphics.framework */; };
+		5E7376F8139D33F0004DAD7D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5E7376F6139D33F0004DAD7D /* InfoPlist.strings */; };
+		5E7376FB139D33F0004DAD7D /* xCATTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 5E7376FA139D33F0004DAD7D /* xCATTests.h */; };
+		5E7376FD139D33F0004DAD7D /* xCATTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7376FC139D33F0004DAD7D /* xCATTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		5E7376F1139D33F0004DAD7D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5E7376C0139D33F0004DAD7D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5E7376C8139D33F0004DAD7D;
+			remoteInfo = xCAT;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		5E7376C9139D33F0004DAD7D /* xCAT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = xCAT.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5E7376CD139D33F0004DAD7D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		5E7376CF139D33F0004DAD7D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		5E7376D1139D33F0004DAD7D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		5E7376D5139D33F0004DAD7D /* xCAT-Info.plist */ = {isa = PBXFileReference; path = "xCAT-Info.plist"; sourceTree = "<group>"; };
+		5E7376D7139D33F0004DAD7D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		5E7376D9139D33F0004DAD7D /* xCAT-Prefix.pch */ = {isa = PBXFileReference; path = "xCAT-Prefix.pch"; sourceTree = "<group>"; };
+		5E7376DA139D33F0004DAD7D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		5E7376DC139D33F0004DAD7D /* xCATAppDelegate.h */ = {isa = PBXFileReference; path = xCATAppDelegate.h; sourceTree = "<group>"; };
+		5E7376DD139D33F0004DAD7D /* xCATAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = xCATAppDelegate.m; sourceTree = "<group>"; };
+		5E7376E0139D33F0004DAD7D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
+		5E7376E2139D33F0004DAD7D /* xCATViewController.h */ = {isa = PBXFileReference; path = xCATViewController.h; sourceTree = "<group>"; };
+		5E7376E3139D33F0004DAD7D /* xCATViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = xCATViewController.m; sourceTree = "<group>"; };
+		5E7376E6139D33F0004DAD7D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/xCATViewController.xib; sourceTree = "<group>"; };
+		5E7376ED139D33F0004DAD7D /* xCATTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = xCATTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5E7376F5139D33F0004DAD7D /* xCATTests-Info.plist */ = {isa = PBXFileReference; path = "xCATTests-Info.plist"; sourceTree = "<group>"; };
+		5E7376F7139D33F0004DAD7D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		5E7376F9139D33F0004DAD7D /* xCATTests-Prefix.pch */ = {isa = PBXFileReference; path = "xCATTests-Prefix.pch"; sourceTree = "<group>"; };
+		5E7376FA139D33F0004DAD7D /* xCATTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xCATTests.h; sourceTree = "<group>"; };
+		5E7376FC139D33F0004DAD7D /* xCATTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = xCATTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5E7376C6139D33F0004DAD7D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5E7376CE139D33F0004DAD7D /* UIKit.framework in Frameworks */,
+				5E7376D0139D33F0004DAD7D /* Foundation.framework in Frameworks */,
+				5E7376D2139D33F0004DAD7D /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5E7376E9139D33F0004DAD7D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5E7376EE139D33F0004DAD7D /* UIKit.framework in Frameworks */,
+				5E7376EF139D33F0004DAD7D /* Foundation.framework in Frameworks */,
+				5E7376F0139D33F0004DAD7D /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5E7376BE139D33F0004DAD7D = {
+			isa = PBXGroup;
+			children = (
+				5E7376D3139D33F0004DAD7D /* xCAT */,
+				5E7376F3139D33F0004DAD7D /* xCATTests */,
+				5E7376CC139D33F0004DAD7D /* Frameworks */,
+				5E7376CA139D33F0004DAD7D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		5E7376CA139D33F0004DAD7D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5E7376C9139D33F0004DAD7D /* xCAT.app */,
+				5E7376ED139D33F0004DAD7D /* xCATTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5E7376CC139D33F0004DAD7D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5E7376CD139D33F0004DAD7D /* UIKit.framework */,
+				5E7376CF139D33F0004DAD7D /* Foundation.framework */,
+				5E7376D1139D33F0004DAD7D /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5E7376D3139D33F0004DAD7D /* xCAT */ = {
+			isa = PBXGroup;
+			children = (
+				5E7376DC139D33F0004DAD7D /* xCATAppDelegate.h */,
+				5E7376DD139D33F0004DAD7D /* xCATAppDelegate.m */,
+				5E7376DF139D33F0004DAD7D /* MainWindow.xib */,
+				5E7376E2139D33F0004DAD7D /* xCATViewController.h */,
+				5E7376E3139D33F0004DAD7D /* xCATViewController.m */,
+				5E7376E5139D33F0004DAD7D /* xCATViewController.xib */,
+				5E7376D4139D33F0004DAD7D /* Supporting Files */,
+			);
+			path = xCAT;
+			sourceTree = "<group>";
+		};
+		5E7376D4139D33F0004DAD7D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				5E7376D5139D33F0004DAD7D /* xCAT-Info.plist */,
+				5E7376D6139D33F0004DAD7D /* InfoPlist.strings */,
+				5E7376D9139D33F0004DAD7D /* xCAT-Prefix.pch */,
+				5E7376DA139D33F0004DAD7D /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5E7376F3139D33F0004DAD7D /* xCATTests */ = {
+			isa = PBXGroup;
+			children = (
+				5E7376FA139D33F0004DAD7D /* xCATTests.h */,
+				5E7376FC139D33F0004DAD7D /* xCATTests.m */,
+				5E7376F4139D33F0004DAD7D /* Supporting Files */,
+			);
+			path = xCATTests;
+			sourceTree = "<group>";
+		};
+		5E7376F4139D33F0004DAD7D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				5E7376F5139D33F0004DAD7D /* xCATTests-Info.plist */,
+				5E7376F6139D33F0004DAD7D /* InfoPlist.strings */,
+				5E7376F9139D33F0004DAD7D /* xCATTests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		5E7376C8139D33F0004DAD7D /* xCAT */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5E737700139D33F0004DAD7D /* Build configuration list for PBXNativeTarget "xCAT" */;
+			buildPhases = (
+				5E7376C5139D33F0004DAD7D /* Sources */,
+				5E7376C6139D33F0004DAD7D /* Frameworks */,
+				5E7376C7139D33F0004DAD7D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = xCAT;
+			productName = xCAT;
+			productReference = 5E7376C9139D33F0004DAD7D /* xCAT.app */;
+			productType = "com.apple.product-type.application";
+		};
+		5E7376EC139D33F0004DAD7D /* xCATTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5E737703139D33F0004DAD7D /* Build configuration list for PBXNativeTarget "xCATTests" */;
+			buildPhases = (
+				5E7376E8139D33F0004DAD7D /* Sources */,
+				5E7376E9139D33F0004DAD7D /* Frameworks */,
+				5E7376EA139D33F0004DAD7D /* Resources */,
+				5E7376EB139D33F0004DAD7D /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5E7376F2139D33F0004DAD7D /* PBXTargetDependency */,
+			);
+			name = xCATTests;
+			productName = xCATTests;
+			productReference = 5E7376ED139D33F0004DAD7D /* xCATTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5E7376C0139D33F0004DAD7D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "Benincosa Inc";
+			};
+			buildConfigurationList = 5E7376C3139D33F0004DAD7D /* Build configuration list for PBXProject "xCAT" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 5E7376BE139D33F0004DAD7D;
+			productRefGroup = 5E7376CA139D33F0004DAD7D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				5E7376C8139D33F0004DAD7D /* xCAT */,
+				5E7376EC139D33F0004DAD7D /* xCATTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		5E7376C7139D33F0004DAD7D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5E7376D8139D33F0004DAD7D /* InfoPlist.strings in Resources */,
+				5E7376E1139D33F0004DAD7D /* MainWindow.xib in Resources */,
+				5E7376E7139D33F0004DAD7D /* xCATViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5E7376EA139D33F0004DAD7D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5E7376F8139D33F0004DAD7D /* InfoPlist.strings in Resources */,
+				5E7376FB139D33F0004DAD7D /* xCATTests.h in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5E7376EB139D33F0004DAD7D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5E7376C5139D33F0004DAD7D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5E7376DB139D33F0004DAD7D /* main.m in Sources */,
+				5E7376DE139D33F0004DAD7D /* xCATAppDelegate.m in Sources */,
+				5E7376E4139D33F0004DAD7D /* xCATViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5E7376E8139D33F0004DAD7D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5E7376FD139D33F0004DAD7D /* xCATTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		5E7376F2139D33F0004DAD7D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5E7376C8139D33F0004DAD7D /* xCAT */;
+			targetProxy = 5E7376F1139D33F0004DAD7D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		5E7376D6139D33F0004DAD7D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5E7376D7139D33F0004DAD7D /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		5E7376DF139D33F0004DAD7D /* MainWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5E7376E0139D33F0004DAD7D /* en */,
+			);
+			name = MainWindow.xib;
+			sourceTree = "<group>";
+		};
+		5E7376E5139D33F0004DAD7D /* xCATViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5E7376E6139D33F0004DAD7D /* en */,
+			);
+			name = xCATViewController.xib;
+			sourceTree = "<group>";
+		};
+		5E7376F6139D33F0004DAD7D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5E7376F7139D33F0004DAD7D /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		5E7376FE139D33F0004DAD7D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		5E7376FF139D33F0004DAD7D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
+		5E737701139D33F0004DAD7D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "xCAT/xCAT-Prefix.pch";
+				INFOPLIST_FILE = "xCAT/xCAT-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		5E737702139D33F0004DAD7D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "xCAT/xCAT-Prefix.pch";
+				INFOPLIST_FILE = "xCAT/xCAT-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		5E737704139D33F0004DAD7D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/xCAT.app/xCAT";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "xCATTests/xCATTests-Prefix.pch";
+				INFOPLIST_FILE = "xCATTests/xCATTests-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SenTestingKit,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		5E737705139D33F0004DAD7D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/xCAT.app/xCAT";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "xCATTests/xCATTests-Prefix.pch";
+				INFOPLIST_FILE = "xCATTests/xCATTests-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SenTestingKit,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5E7376C3139D33F0004DAD7D /* Build configuration list for PBXProject "xCAT" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5E7376FE139D33F0004DAD7D /* Debug */,
+				5E7376FF139D33F0004DAD7D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5E737700139D33F0004DAD7D /* Build configuration list for PBXNativeTarget "xCAT" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5E737701139D33F0004DAD7D /* Debug */,
+				5E737702139D33F0004DAD7D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		5E737703139D33F0004DAD7D /* Build configuration list for PBXNativeTarget "xCATTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5E737704139D33F0004DAD7D /* Debug */,
+				5E737705139D33F0004DAD7D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 5E7376C0139D33F0004DAD7D /* Project object */;
+}

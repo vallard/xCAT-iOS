@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'xCATTests' target in the 'xCATTests' project
+//
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+#endif
