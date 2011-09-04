@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E1EB9AC1412CFA800CEFD5B /* xCATClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E1EB9AB1412CFA800CEFD5B /* xCATClient.m */; };
+		5E1EB9B01412D29900CEFD5B /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E1EB9AF1412D29900CEFD5B /* User.m */; };
+		5E1EB9B31412D38000CEFD5B /* Connection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E1EB9B21412D38000CEFD5B /* Connection.m */; };
+		5E2F29AB13B68F5600112BF7 /* mCalc-Background.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E2F29AA13B68F5600112BF7 /* mCalc-Background.png */; };
 		5E7376CE139D33F0004DAD7D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E7376CD139D33F0004DAD7D /* UIKit.framework */; };
 		5E7376D0139D33F0004DAD7D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E7376CF139D33F0004DAD7D /* Foundation.framework */; };
 		5E7376D2139D33F0004DAD7D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E7376D1139D33F0004DAD7D /* CoreGraphics.framework */; };
@@ -22,6 +26,7 @@
 		5E7376F8139D33F0004DAD7D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5E7376F6139D33F0004DAD7D /* InfoPlist.strings */; };
 		5E7376FB139D33F0004DAD7D /* xCATTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 5E7376FA139D33F0004DAD7D /* xCATTests.h */; };
 		5E7376FD139D33F0004DAD7D /* xCATTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7376FC139D33F0004DAD7D /* xCATTests.m */; };
+		5EF85EEC13BAF137004E0ABF /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EF85EEB13BAF137004E0ABF /* CFNetwork.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,26 +40,34 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5E1EB9AA1412CFA800CEFD5B /* xCATClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xCATClient.h; sourceTree = "<group>"; };
+		5E1EB9AB1412CFA800CEFD5B /* xCATClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = xCATClient.m; sourceTree = "<group>"; };
+		5E1EB9AE1412D29900CEFD5B /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		5E1EB9AF1412D29900CEFD5B /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		5E1EB9B11412D38000CEFD5B /* Connection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Connection.h; sourceTree = "<group>"; };
+		5E1EB9B21412D38000CEFD5B /* Connection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Connection.m; sourceTree = "<group>"; };
+		5E2F29AA13B68F5600112BF7 /* mCalc-Background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mCalc-Background.png"; sourceTree = "<group>"; };
 		5E7376C9139D33F0004DAD7D /* xCAT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = xCAT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E7376CD139D33F0004DAD7D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		5E7376CF139D33F0004DAD7D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5E7376D1139D33F0004DAD7D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		5E7376D5139D33F0004DAD7D /* xCAT-Info.plist */ = {isa = PBXFileReference; path = "xCAT-Info.plist"; sourceTree = "<group>"; };
+		5E7376D5139D33F0004DAD7D /* xCAT-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "xCAT-Info.plist"; sourceTree = "<group>"; };
 		5E7376D7139D33F0004DAD7D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		5E7376D9139D33F0004DAD7D /* xCAT-Prefix.pch */ = {isa = PBXFileReference; path = "xCAT-Prefix.pch"; sourceTree = "<group>"; };
+		5E7376D9139D33F0004DAD7D /* xCAT-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "xCAT-Prefix.pch"; sourceTree = "<group>"; };
 		5E7376DA139D33F0004DAD7D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		5E7376DC139D33F0004DAD7D /* xCATAppDelegate.h */ = {isa = PBXFileReference; path = xCATAppDelegate.h; sourceTree = "<group>"; };
+		5E7376DC139D33F0004DAD7D /* xCATAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xCATAppDelegate.h; sourceTree = "<group>"; };
 		5E7376DD139D33F0004DAD7D /* xCATAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = xCATAppDelegate.m; sourceTree = "<group>"; };
 		5E7376E0139D33F0004DAD7D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
-		5E7376E2139D33F0004DAD7D /* xCATViewController.h */ = {isa = PBXFileReference; path = xCATViewController.h; sourceTree = "<group>"; };
+		5E7376E2139D33F0004DAD7D /* xCATViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xCATViewController.h; sourceTree = "<group>"; };
 		5E7376E3139D33F0004DAD7D /* xCATViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = xCATViewController.m; sourceTree = "<group>"; };
 		5E7376E6139D33F0004DAD7D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/xCATViewController.xib; sourceTree = "<group>"; };
 		5E7376ED139D33F0004DAD7D /* xCATTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = xCATTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5E7376F5139D33F0004DAD7D /* xCATTests-Info.plist */ = {isa = PBXFileReference; path = "xCATTests-Info.plist"; sourceTree = "<group>"; };
+		5E7376F5139D33F0004DAD7D /* xCATTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "xCATTests-Info.plist"; sourceTree = "<group>"; };
 		5E7376F7139D33F0004DAD7D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		5E7376F9139D33F0004DAD7D /* xCATTests-Prefix.pch */ = {isa = PBXFileReference; path = "xCATTests-Prefix.pch"; sourceTree = "<group>"; };
+		5E7376F9139D33F0004DAD7D /* xCATTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "xCATTests-Prefix.pch"; sourceTree = "<group>"; };
 		5E7376FA139D33F0004DAD7D /* xCATTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xCATTests.h; sourceTree = "<group>"; };
 		5E7376FC139D33F0004DAD7D /* xCATTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = xCATTests.m; sourceTree = "<group>"; };
+		5EF85EEB13BAF137004E0ABF /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +75,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5EF85EEC13BAF137004E0ABF /* CFNetwork.framework in Frameworks */,
 				5E7376CE139D33F0004DAD7D /* UIKit.framework in Frameworks */,
 				5E7376D0139D33F0004DAD7D /* Foundation.framework in Frameworks */,
 				5E7376D2139D33F0004DAD7D /* CoreGraphics.framework in Frameworks */,
@@ -84,6 +98,9 @@
 		5E7376BE139D33F0004DAD7D = {
 			isa = PBXGroup;
 			children = (
+				5E1EB9B11412D38000CEFD5B /* Connection.h */,
+				5E1EB9B21412D38000CEFD5B /* Connection.m */,
+				5EF85EEB13BAF137004E0ABF /* CFNetwork.framework */,
 				5E7376D3139D33F0004DAD7D /* xCAT */,
 				5E7376F3139D33F0004DAD7D /* xCATTests */,
 				5E7376CC139D33F0004DAD7D /* Frameworks */,
@@ -116,10 +133,15 @@
 				5E7376DC139D33F0004DAD7D /* xCATAppDelegate.h */,
 				5E7376DD139D33F0004DAD7D /* xCATAppDelegate.m */,
 				5E7376DF139D33F0004DAD7D /* MainWindow.xib */,
+				5E2F29AA13B68F5600112BF7 /* mCalc-Background.png */,
 				5E7376E2139D33F0004DAD7D /* xCATViewController.h */,
 				5E7376E3139D33F0004DAD7D /* xCATViewController.m */,
 				5E7376E5139D33F0004DAD7D /* xCATViewController.xib */,
 				5E7376D4139D33F0004DAD7D /* Supporting Files */,
+				5E1EB9AA1412CFA800CEFD5B /* xCATClient.h */,
+				5E1EB9AB1412CFA800CEFD5B /* xCATClient.m */,
+				5E1EB9AE1412D29900CEFD5B /* User.h */,
+				5E1EB9AF1412D29900CEFD5B /* User.m */,
 			);
 			path = xCAT;
 			sourceTree = "<group>";
@@ -228,6 +250,7 @@
 				5E7376D8139D33F0004DAD7D /* InfoPlist.strings in Resources */,
 				5E7376E1139D33F0004DAD7D /* MainWindow.xib in Resources */,
 				5E7376E7139D33F0004DAD7D /* xCATViewController.xib in Resources */,
+				5E2F29AB13B68F5600112BF7 /* mCalc-Background.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,6 +289,9 @@
 				5E7376DB139D33F0004DAD7D /* main.m in Sources */,
 				5E7376DE139D33F0004DAD7D /* xCATAppDelegate.m in Sources */,
 				5E7376E4139D33F0004DAD7D /* xCATViewController.m in Sources */,
+				5E1EB9AC1412CFA800CEFD5B /* xCATClient.m in Sources */,
+				5E1EB9B01412D29900CEFD5B /* User.m in Sources */,
+				5E1EB9B31412D38000CEFD5B /* Connection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -446,6 +472,7 @@
 				5E737702139D33F0004DAD7D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5E737703139D33F0004DAD7D /* Build configuration list for PBXNativeTarget "xCATTests" */ = {
 			isa = XCConfigurationList;
@@ -454,6 +481,7 @@
 				5E737705139D33F0004DAD7D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
