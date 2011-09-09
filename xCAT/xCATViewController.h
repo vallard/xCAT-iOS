@@ -15,12 +15,14 @@
     xCATClient *xclient;
     Connection *myConnection;
     NSString *message;
+    UIActivityIndicatorView *spinner;
   
 }
 
-@property (nonatomic, retain) UILabel *xCAT;
+@property (nonatomic, retain) IBOutlet UILabel *xCAT;
 @property (nonatomic,retain) NSString *message;
 @property (nonatomic, retain) xCATClient *xclient;
 @property (nonatomic, retain) Connection *myConnection;
+@property (retain, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 
 @end

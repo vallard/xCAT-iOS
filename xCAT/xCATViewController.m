@@ -8,15 +8,22 @@
 
 #import "xCATViewController.h"
 
+
 @implementation xCATViewController
 @synthesize xclient;
 @synthesize myConnection;
 @synthesize message;
+@synthesize spinner;
+@synthesize xCAT;
+
 
 
 - (void)dealloc
 {
-    [xCATClient release];
+    [xCAT release];
+    [spinner release];
+    [xclient release];
+    [myConnection release];
     [super dealloc];
 }
 
@@ -31,74 +38,45 @@
 #pragma mark - View lifecycle
 
 
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
+    [spinner startAnimating];
+    
+    // register for notification of updates.
+    
+    [[NSNotificationCenter  defaultCenter] addObserver:self selector:@selector(didGetxCATData) name:@"didGetxCATData" object:nil];
+    // create a thread and get the server updates.
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        myConnection = [[Connection alloc] initWithUser:@"vallard" passwd:@"$1$A6TX6cyX$ojzJTKUbhIUQzjNEBMOCb0" host:@"benincosa.com" port:3001 ];
+        xclient = [[xCATClient alloc] initWithConnection:myConnection];
+        [xclient runCmd:@"nodels" noderange:nil arguments:nil];
+    });
 
-    myConnection = [[Connection alloc] initWithUser:@"vallard" passwd:@"$1$A6TX6cyX$ojzJTKUbhIUQzjNEBMOCb0" host:CFSTR("benincosa.com") port:3001 ];
     
-    self.message = [NSString stringWithFormat:@"<xcatrequest><becomeuser><username>%@</username><password>%@</password></becomeuser><command>nodels</command></xcatrequest>\n", userid, passwd];
+    [super viewDidLoad];
+}
+
+
+// This method is registered with xCATClient so that whenever we get an update from the server, we update the contents of the table.
+// See: http://stackoverflow.com/questions/5873450/calling-method-in-current-view-controller-from-app-delegate-in-ios
+
+- (void)didGetxCATData {
+    NSLog(@"Got the update");
+    dispatch_async(dispatch_get_main_queue(), ^{
+        xCAT.text = xclient.theOutput; 
+        [spinner stopAnimating];
+        spinner.hidden = TRUE;
+    });
     
-    // initialize native socket handle
-    //NSString *myHost = @"walrus.benincosa.com";
-    //NSURL *xCATUrl = [NSURL URLWithString:myHost];
-    CFStringRef host = CFSTR("benincosa.com");
-    UInt32 port = 3001;
-    CFReadStreamRef readStream;
-    CFWriteStreamRef writeStream;
-    //CFStreamCreatePairWithSocketToHost(NULL, (CFStringRef)[xCATUrl host], 3000, &readStream, &writeStream);
-    CFStreamCreatePairWithSocketToHost(NULL, host, port, &readStream, &writeStream);
-    self.inputStream = (NSInputStream *)readStream;
-    self.outputStream = (NSOutputStream *)writeStream;
-    [inputStream setDelegate:self];
-    [outputStream setDelegate:self];
-  
-    
-    
-    [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-    [outputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-    
-    
-    [inputStream open];
-    [outputStream open];
-    
-    
-    // do some SSL now:
-    
-    [inputStream setProperty:NSStreamSocketSecurityLevelNegotiatedSSL forKey:NSStreamSocketSecurityLevelKey];
-    [outputStream setProperty:NSStreamSocketSecurityLevelNegotiatedSSL forKey:NSStreamSocketSecurityLevelKey];
-    
-    //SSL fails because security isn't valid on SSL.  So we add these properties:
-    // See: http://iphonedevelopment.blogspot.com/2010/05/nsstream-tcp-and-ssl.html
-    // For the below to work, you also need to go to the project sidebar and clicke on it, then under
-    // link binary with libraries include the CFNetwork.framework
-    
-    NSDictionary *streamSettings = [[NSDictionary alloc] initWithObjectsAndKeys:
-                               [NSNumber numberWithBool:YES], kCFStreamSSLAllowsExpiredCertificates,
-                               [NSNumber numberWithBool:YES], kCFStreamSSLAllowsAnyRoot,
-                               [NSNumber numberWithBool:NO], kCFStreamSSLValidatesCertificateChain, 
-                               kCFNull, kCFStreamSSLPeerName,
-                               nil];
-    
-    CFReadStreamSetProperty((CFReadStreamRef)self.inputStream, kCFStreamPropertySSLSettings, (CFTypeRef)streamSettings);
-    CFWriteStreamSetProperty((CFWriteStreamRef)self.outputStream, kCFStreamPropertySSLSettings, (CFTypeRef)streamSettings);
-                  
-    //[sSettings release];        
-                
-            
-    /*NSXMLParser *xmlParser = [[NSXMLParser alloc] initWithContentsOfURL:xCATUrl];
-    
-    
-    NSLog(@"This is it: %@", xmlParser);
-    [xmlParser release];
-    */
-     [super viewDidLoad];
 }
 
 - (void)viewDidUnload
 {
-    self.inputStream = nil;
-    self.outputStream = nil;
+    self.spinner = nil;
+    self.xCAT = nil;
+    self.myConnection = nil;
     [super viewDidUnload];
 }
 
