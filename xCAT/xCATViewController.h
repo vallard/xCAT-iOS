@@ -9,19 +9,25 @@
 #import <UIKit/UIKit.h>
 #import "xCATClient.h"
 #import "Connection.h"
+#import "xCATParser.h"
 
-@interface xCATViewController : UIViewController  {
+@interface xCATViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
     UILabel *xCAT;
-    xCATClient *xclient;
+    xCATClient *xClient;
+    xCATParser *xParser;
     Connection *myConnection;
     NSString *message;
     UIActivityIndicatorView *spinner;
+    UITableView *nodeListTable;
+    NSArray *nodelist;
   
 }
 
 @property (nonatomic, retain) IBOutlet UILabel *xCAT;
+@property (nonatomic, retain) IBOutlet UITableView *nodeListTable;
 @property (nonatomic,retain) NSString *message;
-@property (nonatomic, retain) xCATClient *xclient;
+@property (nonatomic, retain) xCATClient *xClient;
+@property (nonatomic, retain) xCATParser *xParser;
 @property (nonatomic, retain) Connection *myConnection;
 @property (retain, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 

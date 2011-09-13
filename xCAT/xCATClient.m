@@ -17,6 +17,7 @@
 @synthesize theData;
 @synthesize myConn;
 
+
 // Make this a singleton class?  Or make a new class every time we connect?
 - (id)init
 {

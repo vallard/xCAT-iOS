@@ -8,9 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		5E1EB9AC1412CFA800CEFD5B /* xCATClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E1EB9AB1412CFA800CEFD5B /* xCATClient.m */; };
-		5E1EB9B01412D29900CEFD5B /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E1EB9AF1412D29900CEFD5B /* User.m */; };
 		5E1EB9B31412D38000CEFD5B /* Connection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E1EB9B21412D38000CEFD5B /* Connection.m */; };
 		5E2F29AB13B68F5600112BF7 /* mCalc-Background.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E2F29AA13B68F5600112BF7 /* mCalc-Background.png */; };
+		5E50F54C14181EA6005BDF3E /* xCAT-logo.gif in Resources */ = {isa = PBXBuildFile; fileRef = 5E50F54B14181EA6005BDF3E /* xCAT-logo.gif */; };
+		5E57378B141AC3CA00B67D26 /* xCATParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E57378A141AC3C900B67D26 /* xCATParser.m */; };
 		5E7376CE139D33F0004DAD7D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E7376CD139D33F0004DAD7D /* UIKit.framework */; };
 		5E7376D0139D33F0004DAD7D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E7376CF139D33F0004DAD7D /* Foundation.framework */; };
 		5E7376D2139D33F0004DAD7D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E7376D1139D33F0004DAD7D /* CoreGraphics.framework */; };
@@ -42,11 +43,12 @@
 /* Begin PBXFileReference section */
 		5E1EB9AA1412CFA800CEFD5B /* xCATClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xCATClient.h; sourceTree = "<group>"; };
 		5E1EB9AB1412CFA800CEFD5B /* xCATClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = xCATClient.m; sourceTree = "<group>"; };
-		5E1EB9AE1412D29900CEFD5B /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
-		5E1EB9AF1412D29900CEFD5B /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		5E1EB9B11412D38000CEFD5B /* Connection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Connection.h; sourceTree = "<group>"; };
 		5E1EB9B21412D38000CEFD5B /* Connection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Connection.m; sourceTree = "<group>"; };
 		5E2F29AA13B68F5600112BF7 /* mCalc-Background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mCalc-Background.png"; sourceTree = "<group>"; };
+		5E50F54B14181EA6005BDF3E /* xCAT-logo.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "xCAT-logo.gif"; sourceTree = "<group>"; };
+		5E573789141AC3C900B67D26 /* xCATParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xCATParser.h; sourceTree = "<group>"; };
+		5E57378A141AC3C900B67D26 /* xCATParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = xCATParser.m; sourceTree = "<group>"; };
 		5E7376C9139D33F0004DAD7D /* xCAT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = xCAT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E7376CD139D33F0004DAD7D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		5E7376CF139D33F0004DAD7D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -98,6 +100,7 @@
 		5E7376BE139D33F0004DAD7D = {
 			isa = PBXGroup;
 			children = (
+				5E50F54B14181EA6005BDF3E /* xCAT-logo.gif */,
 				5E1EB9B11412D38000CEFD5B /* Connection.h */,
 				5E1EB9B21412D38000CEFD5B /* Connection.m */,
 				5EF85EEB13BAF137004E0ABF /* CFNetwork.framework */,
@@ -140,8 +143,8 @@
 				5E7376D4139D33F0004DAD7D /* Supporting Files */,
 				5E1EB9AA1412CFA800CEFD5B /* xCATClient.h */,
 				5E1EB9AB1412CFA800CEFD5B /* xCATClient.m */,
-				5E1EB9AE1412D29900CEFD5B /* User.h */,
-				5E1EB9AF1412D29900CEFD5B /* User.m */,
+				5E573789141AC3C900B67D26 /* xCATParser.h */,
+				5E57378A141AC3C900B67D26 /* xCATParser.m */,
 			);
 			path = xCAT;
 			sourceTree = "<group>";
@@ -251,6 +254,7 @@
 				5E7376E1139D33F0004DAD7D /* MainWindow.xib in Resources */,
 				5E7376E7139D33F0004DAD7D /* xCATViewController.xib in Resources */,
 				5E2F29AB13B68F5600112BF7 /* mCalc-Background.png in Resources */,
+				5E50F54C14181EA6005BDF3E /* xCAT-logo.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,8 +294,8 @@
 				5E7376DE139D33F0004DAD7D /* xCATAppDelegate.m in Sources */,
 				5E7376E4139D33F0004DAD7D /* xCATViewController.m in Sources */,
 				5E1EB9AC1412CFA800CEFD5B /* xCATClient.m in Sources */,
-				5E1EB9B01412D29900CEFD5B /* User.m in Sources */,
 				5E1EB9B31412D38000CEFD5B /* Connection.m in Sources */,
+				5E57378B141AC3CA00B67D26 /* xCATParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,19 +10,22 @@
 
 
 @implementation xCATViewController
-@synthesize xclient;
+@synthesize xClient;
+@synthesize xParser;
 @synthesize myConnection;
 @synthesize message;
 @synthesize spinner;
 @synthesize xCAT;
+@synthesize nodeListTable;
 
 
 
 - (void)dealloc
 {
+    [xParser release];
     [xCAT release];
     [spinner release];
-    [xclient release];
+    [xClient release];
     [myConnection release];
     [super dealloc];
 }
@@ -50,8 +53,8 @@
     // create a thread and get the server updates.
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         myConnection = [[Connection alloc] initWithUser:@"vallard" passwd:@"$1$A6TX6cyX$ojzJTKUbhIUQzjNEBMOCb0" host:@"benincosa.com" port:3001 ];
-        xclient = [[xCATClient alloc] initWithConnection:myConnection];
-        [xclient runCmd:@"nodels" noderange:nil arguments:nil];
+        xClient = [[xCATClient alloc] initWithConnection:myConnection];
+        [xClient runCmd:@"nodels" noderange:nil arguments:nil];
     });
 
     
@@ -64,10 +67,24 @@
 
 - (void)didGetxCATData {
     NSLog(@"Got the update");
+    // create a new parser
+    [xParser release];
+    xParser = [[xCATParser alloc] init];
+    [xParser start:xClient.theOutput];
+    nodelist = xParser.nodes;
+    NSLog(@"The nodes %@", xParser.nodes);
+    // now we need to parse this string.
+    //NSXMLParser *parser = [[NSXMLParser alloc] initWithData:[xclient.theOutput dataUsingEncoding:NSASCIIStringEncoding]];
+    //[parser setDelegate:self];
+    //[parser parse];
+    
+    
     dispatch_async(dispatch_get_main_queue(), ^{
-        xCAT.text = xclient.theOutput; 
+        xCAT.text = @"Node List"; 
         [spinner stopAnimating];
         spinner.hidden = TRUE;
+        [nodeListTable reloadData];
+    
     });
     
 }
@@ -86,6 +103,30 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+#pragma mark -
+#pragma mark UITableViewDataSource Methods
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (nodelist == nil) {
+        return 0;  
+    }else{
+        return [nodelist count];
+    }
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *CellIdentifier = @"Cell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+    }
+    
+    
+    cell.textLabel.text = [nodelist objectAtIndex:[indexPath row]];
+    return cell;
+}
 
 
 @end
