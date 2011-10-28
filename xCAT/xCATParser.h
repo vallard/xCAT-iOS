@@ -13,9 +13,12 @@
     NSMutableString *currentElement;
     NSString *currentNode;
     NSMutableArray *nodes;
+    BOOL thereAreErrors;
 }
 
 @property (retain, nonatomic) NSMutableArray *nodes;
+@property ( nonatomic) BOOL thereAreErrors;
+
 
 - (void)start:(NSString *)theData;
 @end

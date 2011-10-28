@@ -7,10 +7,13 @@
 //
 
 #import "xCATParser.h"
+#import <regex.h>
 
 @implementation xCATParser
 
 @synthesize nodes;
+@synthesize thereAreErrors;
+
 - (id)init
 {
     self = [super init];
@@ -44,13 +47,13 @@
 
 #pragma mark NSXMLParser Parsing Callbacks
 - (void)parserDidStartDocument:(NSXMLParser *)parser {
-    NSLog(@"Starting to parse", nil);
+    //NSLog(@"Starting to parse", nil);
     
 }
 
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict {
-    NSLog(@"starting element %@", elementName);
+    //NSLog(@"starting element %@", elementName);
     if ([elementName isEqualToString:@"name"]) {
         currentElement = nil;
         currentNode = nil;
@@ -77,15 +80,16 @@
         [currentElement release];
     }
     
+    // case of bad authentication
+    
     if([elementName isEqualToString:@"error"]){
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            UIAlertView *uhoh = [[UIAlertView alloc] initWithTitle:@"xCAT Error" message:currentElement delegate:self cancelButtonTitle:@"close" otherButtonTitles:nil, nil];
-            [uhoh show];
-            [uhoh release];
-            [currentElement release];
-            
-        });
+        // If this is a login Error signal to message center.
+        if ([currentElement isEqualToString:@"Authentication failure"]) {
+            //NSLog(@"Authentication Error");
+            thereAreErrors = YES;
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"didGetAuthenticationError" object:nil];
+
+        }
     }
 }
 

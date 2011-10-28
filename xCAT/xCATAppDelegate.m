@@ -8,20 +8,71 @@
 
 #import "xCATAppDelegate.h"
 
-#import "xCATViewController.h"
+#import "LoginViewController.h"
+
+#import "Connection.h"
+
+#import "xCATClient.h"
+
+#import "xCATParser.h"
+
+#import "xCATNode.h"
 
 @implementation xCATAppDelegate
 
 
 @synthesize window=_window;
 
-@synthesize viewController=_viewController;
+@synthesize loginViewController;
+
+@synthesize xCATConnection;
+
+@synthesize xClient;
+
+@synthesize xParser;
+
+@synthesize nodelist;
+
+
+// take information from the parser and create a node objects from it.
+- (void)createNodeList {
+    self.nodelist = self.xParser.nodes;
+    NSMutableArray *ma = [[NSMutableArray alloc] initWithCapacity:[self.xParser.nodes count]];
+    NSEnumerator *e = [self.xParser.nodes objectEnumerator];
+    NSString *nName;
+    while (nName = [e nextObject]) {
+        [ma addObject:[[[xCATNode alloc] initWithName:nName] autorelease]];
+        
+    }
+    self.nodelist = ma;
+    [ma release];
+}
+
+- (void)parseRpowerOutput {
+    // this method is for when rpower is called and we get the output of the command.
+    self.xParser = nil;
+    [self.xParser release];
+    self.xParser = [[xCATParser alloc] init];
+    [self.xParser start:self.xClient.theOutput];
+    
+    // since we already have the node list, we just update the parts of this node.
+    
+    //.nodelist = nil;
+    //[theApp.nodelist release];
+    
+    if (self.xParser.thereAreErrors) {
+        // there are errors so finish execution.  Don't proceed.
+        NSLog(@"There are errors parsing");
+        return;
+    }
+}
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-     
-    self.window.rootViewController = self.viewController;
+
+    self.window.rootViewController = self.loginViewController;
     [self.window makeKeyAndVisible];
     return YES;
 }
@@ -67,8 +118,13 @@
 
 - (void)dealloc
 {
+    [nodelist release];
+    [xParser release];
+    [xClient release];
+    [xCATConnection release];
     [_window release];
-    [_viewController release];
+    [LoginViewController release];
+    //[xNavController release];
     [super dealloc];
 }
 

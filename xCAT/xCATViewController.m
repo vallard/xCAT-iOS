@@ -7,7 +7,10 @@
 //
 
 #import "xCATViewController.h"
-
+#import "xCATAppDelegate.h"
+#import "LoginViewController.h"
+#import "CommandViewController.h"
+#import "xCATNode.h"
 
 @implementation xCATViewController
 @synthesize xClient;
@@ -15,13 +18,18 @@
 @synthesize myConnection;
 @synthesize message;
 @synthesize spinner;
-@synthesize xCAT;
 @synthesize nodeListTable;
+@synthesize xCAT;
+@synthesize logOutButton;
 
+
+// action to close up shop and log out of xCAT server.
+//- (IBAction)logOut:(id)sender { 
 
 
 - (void)dealloc
 {
+    [logOutButton release];
     [xParser release];
     [xCAT release];
     [spinner release];
@@ -38,6 +46,7 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
+
 #pragma mark - View lifecycle
 
 
@@ -45,52 +54,59 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
-    [spinner startAnimating];
-    
-    // register for notification of updates.
-    
-    [[NSNotificationCenter  defaultCenter] addObserver:self selector:@selector(didGetxCATData) name:@"didGetxCATData" object:nil];
-    // create a thread and get the server updates.
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        myConnection = [[Connection alloc] initWithUser:@"vallard" passwd:@"$1$A6TX6cyX$ojzJTKUbhIUQzjNEBMOCb0" host:@"benincosa.com" port:3001 ];
-        xClient = [[xCATClient alloc] initWithConnection:myConnection];
-        [xClient runCmd:@"nodels" noderange:nil arguments:nil];
-    });
+ 
+    xCATAppDelegate *theApp = (xCATAppDelegate *)[[UIApplication sharedApplication] delegate];
 
+    nodelist = theApp.nodelist;
+    if ([nodelist count] == 0) {
+        nodeListTable.hidden = YES;
+        UILabel *myNotice = [[UILabel alloc] initWithFrame:CGRectMake(10, 100, 300, 50 )];
+        myNotice.backgroundColor = [UIColor clearColor];
+        myNotice.text = @"No Nodes Defined";
+        myNotice.textAlignment = UITextAlignmentCenter;
+        self.view.backgroundColor = [UIColor whiteColor];
+        [self.view addSubview:myNotice];
+        [myNotice release];
+    }else{
+        NSLog(@"In here ready to run rpower");
+        // run rpower command on nodes!
+        [self signUpForNotifications];
+        theApp.xClient = nil;
+        [theApp.xClient release];
+        theApp.xClient = [[xCATClient alloc] initWithConnection:theApp.xCATConnection];
+        [theApp.xClient runCmd:@"rpower" noderange:@"/.*" arguments:[NSArray arrayWithObjects:@"stat", nil]];
+    }
     
+    
+    UIImage *xLogo = [UIImage imageNamed:@"xCAT-logo-white-navbar.png"];
+    
+    self.navigationItem.titleView = [[[UIImageView alloc] initWithImage:xLogo] autorelease];
     [super viewDidLoad];
 }
 
-
-// This method is registered with xCATClient so that whenever we get an update from the server, we update the contents of the table.
-// See: http://stackoverflow.com/questions/5873450/calling-method-in-current-view-controller-from-app-delegate-in-ios
+- (void)signUpForNotifications {
+    
+    // Sign up for notifications for xCAT events
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didGetxCATData) name:@"didGetxCATData" object:nil];
+}
 
 - (void)didGetxCATData {
-    NSLog(@"Got the update");
-    // create a new parser
-    [xParser release];
-    xParser = [[xCATParser alloc] init];
-    [xParser start:xClient.theOutput];
-    nodelist = xParser.nodes;
-    NSLog(@"The nodes %@", xParser.nodes);
-    // now we need to parse this string.
-    //NSXMLParser *parser = [[NSXMLParser alloc] initWithData:[xclient.theOutput dataUsingEncoding:NSASCIIStringEncoding]];
-    //[parser setDelegate:self];
-    //[parser parse];
     
+    xCATAppDelegate *theApp = (xCATAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [theApp parseRpowerOutput];
+    [self.nodeListTable reloadData];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        xCAT.text = @"Node List"; 
-        [spinner stopAnimating];
-        spinner.hidden = TRUE;
-        [nodeListTable reloadData];
-    
-    });
-    
+    /*
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ran rpower!" message:@"rpower was run" delegate:self cancelButtonTitle:@"Ok, I'm good" otherButtonTitles:nil, nil];
+    [alert show];
+    [alert release];
+     */
 }
+
 
 - (void)viewDidUnload
 {
+    self.logOutButton = nil;
     self.spinner = nil;
     self.xCAT = nil;
     self.myConnection = nil;
@@ -123,10 +139,47 @@
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
     }
     
-    
-    cell.textLabel.text = [nodelist objectAtIndex:[indexPath row]];
+    xCATNode *xNode = [nodelist objectAtIndex:[indexPath row]];
+    cell.textLabel.text = xNode.name;
+    switch (xNode.powerState) {
+        case kUnknown:
+            cell.imageView.image = [UIImage imageNamed:@"amber-light.png"];
+            break;
+        case kOn:
+            cell.imageView.image = [UIImage imageNamed:@"green-light.png"];
+            break; 
+        case kOff:
+            cell.imageView.image = [UIImage imageNamed:@"gray-light.png"];
+            break;
+        case kError:
+            cell.imageView.image = [UIImage imageNamed:@"red-light.png"];
+            break;
+        default:
+            break;
+    }
+    cell.detailTextLabel.text = xNode.statusMessage;
+    //cell.textLabel.text = [nodelist objectAtIndex:[indexPath row]];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
     return cell;
 }
 
+#pragma mark - Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    CommandViewController *commandViewController = [[ CommandViewController alloc] initWithNibName:@"CommandViewController" bundle:nil];
+    
+    xCATNode *xNode = [nodelist objectAtIndex:[indexPath row]];
+    commandViewController.hostName = xNode.name;
+    
+    if(self.navigationController){
+        [self.navigationController pushViewController:commandViewController animated:YES];
+    }else{
+        NSLog(@"Navigation controller is nil");
+    }
+    [commandViewController release];
+}
 
 @end

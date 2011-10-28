@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Connection.h"
 
+#define kConnectionTimeOut 10.0
 @interface xCATClient : NSObject <NSStreamDelegate> {
     NSInputStream *inputStream;
     NSOutputStream *outputStream;
@@ -17,6 +18,8 @@
     NSString *theOutput;
     NSString *cmd;
     Connection *myConn;
+    NSTimer *connectionTimeoutTimer;
+    int timesCalled;
     
 }
 @property (nonatomic,retain) NSInputStream *inputStream;
@@ -31,4 +34,9 @@
 - (id)initWithConnection:(Connection *)connection;
 - (void)runCmd:(NSString *)command noderange:(NSString *)nr arguments:(NSArray *)args;
 - (void)startConnection;
+- (void)closeConnection;
+- (void)stopConnectionTimeoutTimer;
+- (void)startConnectionTimeoutTimer;
+- (void)connectionDidTimeOut;
+- (void)serverDidFinishResponding;
 @end

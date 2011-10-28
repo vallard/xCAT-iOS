@@ -20,15 +20,19 @@
     UIActivityIndicatorView *spinner;
     UITableView *nodeListTable;
     NSArray *nodelist;
+    UINavigationItem *logOutButton;
   
 }
 
 @property (nonatomic, retain) IBOutlet UILabel *xCAT;
 @property (nonatomic, retain) IBOutlet UITableView *nodeListTable;
+@property (nonatomic, retain) IBOutlet UINavigationItem *logOutButton;
 @property (nonatomic,retain) NSString *message;
 @property (nonatomic, retain) xCATClient *xClient;
 @property (nonatomic, retain) xCATParser *xParser;
 @property (nonatomic, retain) Connection *myConnection;
 @property (retain, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
+//- (IBAction)logOut:(id)sender;
+- (void)signUpForNotifications;
 
 @end
