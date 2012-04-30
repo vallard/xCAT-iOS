@@ -7,32 +7,31 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "xCATClient.h"
-#import "Connection.h"
-#import "xCATParser.h"
 
-@interface xCATViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
+
+@interface xCATViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate> {
     UILabel *xCAT;
-    xCATClient *xClient;
-    xCATParser *xParser;
-    Connection *myConnection;
     NSString *message;
     UIActivityIndicatorView *spinner;
     UITableView *nodeListTable;
-    NSArray *nodelist;
     UINavigationItem *logOutButton;
+    UIToolbar *toolBar;
+    NSString *currentCommand;
   
 }
 
 @property (nonatomic, retain) IBOutlet UILabel *xCAT;
 @property (nonatomic, retain) IBOutlet UITableView *nodeListTable;
 @property (nonatomic, retain) IBOutlet UINavigationItem *logOutButton;
+@property (nonatomic, retain) IBOutlet UIToolbar *toolbar;
+
 @property (nonatomic,retain) NSString *message;
-@property (nonatomic, retain) xCATClient *xClient;
-@property (nonatomic, retain) xCATParser *xParser;
-@property (nonatomic, retain) Connection *myConnection;
 @property (retain, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 //- (IBAction)logOut:(id)sender;
 - (void)signUpForNotifications;
+- (IBAction)refreshPowerStat;
+- (IBAction)forwardActions:(id)sender;
+- (void)showActivity;
+
 
 @end

@@ -20,6 +20,10 @@
     Connection *myConn;
     NSTimer *connectionTimeoutTimer;
     int timesCalled;
+    NSString *identifier;  // key used to identify this xCAT client.
+    NSString *command;
+    NSString *noderange;
+    NSString *args;
     
 }
 @property (nonatomic,retain) NSInputStream *inputStream;
@@ -28,6 +32,11 @@
 @property (nonatomic,copy) NSString *theOutput;
 @property (nonatomic,copy) NSString *cmd;
 @property (nonatomic, retain) Connection *myConn;
+@property (nonatomic, retain) NSString *identifier;
+
+@property (nonatomic, retain) NSString *command;
+@property (nonatomic, retain) NSString *noderange;
+@property (nonatomic, retain) NSString *args;
 
 - (void)handleOutputStream:(NSStreamEvent)eventCode;
 - (void)handleInputStream:(NSStreamEvent)eventCode;

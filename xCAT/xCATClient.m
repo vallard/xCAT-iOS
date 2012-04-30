@@ -8,6 +8,7 @@
 
 #import "xCATClient.h"
 #import "xCATAppDelegate.h"
+#define DEBUG 1
 
 @implementation xCATClient
 @synthesize theOutput;
@@ -16,7 +17,10 @@
 @synthesize inputStream;
 @synthesize theData;
 @synthesize myConn;
-
+@synthesize identifier;
+@synthesize command;
+@synthesize noderange;
+@synthesize args;
 
 // Make this a singleton class?  Or make a new class every time we connect?
 - (id)init
@@ -29,9 +33,28 @@
     return self;
 }
 
+- (NSString *)generateRandomString {
+    NSString *string = @"thisIsASampleString";
+    NSUInteger strLength = [string length];
+    NSString *letterToAdd;
+    NSArray *charArray = [[NSArray alloc] initWithObjects: @"a", @"b", @"c", @"d", @"e", @"f",
+                          @"g", @"h", @"i", @"j", @"k", @"l", @"m", @"o", @"p", @"q", @"r", @"s",
+                          @"t", @"u", @"v", @"w", @"x", @"y", @"z", nil];
+  
+    NSMutableString *randomString = [NSMutableString stringWithCapacity: 18];
+        
+    for (int i = 0; i < strLength; i++) {
+        letterToAdd = [charArray objectAtIndex: arc4random() % [charArray count]];
+        [randomString insertString: letterToAdd atIndex: i];
+           
+    }
+    return randomString;
+}
+
 - (id)initWithConnection:(Connection *)connection {
     self = [super init];
     if(self){
+        self.identifier = [self generateRandomString];
         myConn = connection;
         [self startConnection];
     }
@@ -40,7 +63,9 @@
 
 - (void)dealloc
 {
+    [identifier release];
     [self stopConnectionTimeoutTimer];
+    [theOutput release];
     [myConn release];
     [cmd release];
     [theOutput release];
@@ -86,23 +111,19 @@ We close all connections and send a notification to the view.
     CFWriteStreamRef writeStream;
  
     CFStreamCreatePairWithSocketToHost(NULL, (CFStringRef)myConn.host, myConn.port, &readStream, &writeStream);
-        
-    
-    
-    
     
     if (readStream == nil || writeStream == nil) {
         NSLog(@"Error making connection");
         return;
     }
-    
+    NSLog(@"Connection made to xCAT server");
     self.inputStream = (NSInputStream *)readStream;
     self.outputStream = (NSOutputStream *)writeStream;
     [inputStream setDelegate:self];
     [outputStream setDelegate:self];
  
     // schedule on the main run loop
-    dispatch_async(dispatch_get_main_queue(), ^ {
+    //dispatch_async(dispatch_get_main_queue(), ^ {
  
         [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
         [outputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
@@ -135,11 +156,12 @@ We close all connections and send a notification to the view.
         // Need to create a timeout here so that app doesn't hang forever.
         // See: http://stackoverflow.com/questions/3687177/iphone-catching-a-connection-error-with-nsstream
         [self startConnectionTimeoutTimer];
-    });
+    //});
 }
 
 - (void)closeConnection {
     if (self.inputStream != nil) {
+        NSLog(@"Closing inputstream");
         self.inputStream.delegate = nil;
         [self.inputStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
         [self.inputStream close];
@@ -147,20 +169,32 @@ We close all connections and send a notification to the view.
     }
     
     if (self.outputStream != nil) {
+        NSLog(@"Closing output streatm");
         self.outputStream.delegate = nil;
         [self.outputStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
         [self.outputStream close];
         self.outputStream = nil;
     }
+    
+    // need to invalidate the queue
 }
-
-- (void)runCmd:(NSString *)command noderange:(NSString *)nr arguments:(NSArray *)args {
+// runCmd:cmd noderange:nr arguments:[NSArray arrayWithObjects:subCmd, nil]];
+- (void)runCmd:(NSString *)comm noderange:(NSString *)nr arguments:(NSArray *)theArgs {
+    
+    if (DEBUG > 0) {
+        NSLog(@"xCATClient:runCmd, nr is %@", nr);
+        NSLog(@"#################################");
+    }
+    self.command = comm;
+    self.noderange = nr;
     
     if (nr) {
-        self.cmd = [NSString stringWithFormat:@"<xcatrequest><becomeuser><username>%@</username><password>%@</password></becomeuser><command>%@</command><noderange>%@</noderange><arg>%@</arg></xcatrequest>\n", myConn.user, myConn.passwd, command, nr, [args objectAtIndex:0]];
+    
+        self.cmd = [NSString stringWithFormat:@"<xcatrequest><becomeuser><username>%@</username><password>%@</password></becomeuser><command>%@</command><noderange>%@</noderange><arg>%@</arg></xcatrequest>\n", myConn.user, myConn.passwd, comm, nr, [theArgs objectAtIndex:0]];
+            
 
     }else {
-        self.cmd = [NSString stringWithFormat:@"<xcatrequest><becomeuser><username>%@</username><password>%@</password></becomeuser><command>%@</command></xcatrequest>\n", myConn.user, myConn.passwd, command];
+        self.cmd = [NSString stringWithFormat:@"<xcatrequest><becomeuser><username>%@</username><password>%@</password></becomeuser><command>%@</command></xcatrequest>\n", myConn.user, myConn.passwd, comm];
     }
 }
 
@@ -173,18 +207,21 @@ We close all connections and send a notification to the view.
     
     if ([theError.domain isEqualToString:(NSString *)kCFErrorDomainCFNetwork]) {
         errorMessage = [NSString stringWithFormat:@"Unable to resolve %@", self.myConn.host];
+        // post that we're not able to resolve this:
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"canNotResolve" object:nil];
+        [self closeConnection];
+        return;
         
-    }else {
-        errorMessage = [theError localizedDescription];
     }
-    
+
     NSLog(@"Error: %@", theError);
-    //UIAlertView *theAlert = [[UIAlertView alloc] initWithTitle:@"Input Stream Error" message:[NSString stringWithFormat:@"Error %i: %@", [theError code], [theError localizedDescription]] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-    UIAlertView *theAlert = [[UIAlertView alloc] initWithTitle:@"Connection Error" message:errorMessage delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-    [theAlert show];
-    [theAlert release];
-    [self closeConnection];
+    errorMessage = [theError localizedDescription];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"didGetConnectionError" object:nil];
+    [self closeConnection];
+
+   
+    
+    
 }
 
 - (void)handleOutputStream:(NSStreamEvent)eventCode {
@@ -225,13 +262,19 @@ We close all connections and send a notification to the view.
             int len;
             len = [outputStream write:bytes  maxLength:data_len];
             if (len > 0){
-                NSLog(@"Command Sent");
+                // create notification that command has sent.
+                if(DEBUG >0) {
+                    NSLog(@"Command Sent");
+                }
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"didSendxCATData" object:nil];
                 [outputStream close];
             }
             break;
             
         case NSStreamEventOpenCompleted:
             NSLog(@"Output Stream: Opened completed");
+            NSLog(@"Can now send data");
+            NSLog(@"my command is: %@", self.cmd);
             break;
         case NSStreamEventNone:
             NSLog(@"Output Stream: Event None");
@@ -248,7 +291,7 @@ We close all connections and send a notification to the view.
     switch (eventCode) {
         case NSStreamEventHasBytesAvailable:
         { 
-            NSLog(@"Input Stream:  Reading data from the server!");
+            if (DEBUG > 0) { NSLog(@"Input Stream:  Reading data from the server!"); }
             uint8_t buffer[1024];
             int len;
             while ([inputStream hasBytesAvailable]) {
@@ -256,26 +299,25 @@ We close all connections and send a notification to the view.
                 NSString *myOutput = [[NSString alloc] initWithBytes:buffer length:len encoding:NSASCIIStringEncoding];
                 //NSData *theData = [[NSData alloc] initWithBytes:buffer length:len];
                 if (nil != myOutput ) {
-                    NSLog(@"This is the data we read: %@", myOutput );
-                    //self.receivedMessage = [NSString stringWithFormat:@"%@%@", self.receivedMessage, myOutput];
                     
-                    // append data to the existing data stream.
+                    if (DEBUG >0) {
+                        NSLog(@"This is the data we read: %@", myOutput );
+                    }
                     self.theData = [NSString stringWithFormat:@"%@%@", self.theData, myOutput];
                 
                     
                 }
             }
-            //NSLog(@"This is the final message: %@", theFinalOutput);
-            //self.receivedMessage = [NSString stringWithFormat:@"%@%@", self.receivedMessage, theFinalOutput];
             break;
         }
             
         // This case is called when the xCAT server is finished responding.  Now we take this and send it back.
         case NSStreamEventEndEncountered:
-            NSLog(@"Input Stream: Event End encountered");
-            // here is the final message
-            NSLog(@"The final message is: %@", self.theData);
-            
+            if (DEBUG >0) {
+                NSLog(@"Input Stream: Event End encountered");
+                // here is the final message
+                NSLog(@"The final message is: %@", self.theData);
+            }
             self.theOutput = self.theData;
             [self serverDidFinishResponding];
             
@@ -288,7 +330,9 @@ We close all connections and send a notification to the view.
         case NSStreamEventHasSpaceAvailable:
             break;
         case NSStreamEventOpenCompleted:
-            NSLog(@"Ready to read!");
+            if (DEBUG >0) {
+                NSLog(@"Ready to read!");
+            }
             break;
         case NSStreamEventNone:
             break;
@@ -298,16 +342,20 @@ We close all connections and send a notification to the view.
 }
 
 -(void)serverDidFinishResponding {
+    // This is where we respond to whoever called us to do the command.  
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"didGetxCATData" object:nil];
+    [self closeConnection];
+    NSLog(@"Closed connection to server");
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"didGetxCATData" object:self userInfo:[NSDictionary dictionaryWithObject:self.identifier forKey:@"key"]];
+    //[[NSNotificationCenter defaultCenter] postNotificationName:@"didGetxCATData" object:nil];
 }
+
 
 #pragma mark -
 #pragma mark nsstream delegate method
 
 -(void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode {
-    //NSLog(@"Stream:handleevent: is invoked...");
-    //NSLog(@"The eventCode is %@", (NSString *)eventCode);
+ 
     if (aStream == outputStream) {
         [self handleOutputStream:eventCode];
     }else if (aStream == inputStream){

@@ -9,24 +9,21 @@
 #import <UIKit/UIKit.h>
 
 
-
 @class xCATViewController;
 @class LoginViewController;
 @class Connection;
 @class xCATClient;
-@class xCATParser;
+@class xCATNode;
 
 @interface xCATAppDelegate : NSObject <UIApplicationDelegate> {
     Connection *xCATConnection;
-    xCATClient *xClient;
-    xCATParser *xParser;
     NSArray *nodelist;  // holds an array of node objects.
+    NSMutableDictionary *xSessions;  // an array of sessions that are being called for different views and actions.
+    NSDateFormatter *dateFormatter;
 }
-@property (nonatomic, retain) NSArray *nodelist;
+@property (nonatomic, copy) NSArray *nodelist;
 
-@property (nonatomic, retain) xCATParser *xParser;
-
-@property (nonatomic, retain) xCATClient *xClient;
+@property (nonatomic, retain) NSDateFormatter *dateFormatter;
 
 @property (nonatomic, retain) Connection *xCATConnection;
 
@@ -34,7 +31,15 @@
 
 @property (nonatomic, retain) IBOutlet LoginViewController *loginViewController;
 
-- (void)createNodeList;
-- (void)parseRpowerOutput;
+
+//- (NSArray *)parsePowerOutput:(xCATClient *)xC;
+- (void)parseEventLog:(xCATClient *)xC;
+- (void)parseVitals:(xCATClient *)xC;
+- (void)parseInv:(xCATClient *)xC;
+- (void)parseNodeStat:(xCATClient *)xC;
+- (void)parseROutput:(xCATClient *)xClient cmd:(NSString *)cmd;
+- (xCATNode *)getNode:(NSString *)node;
+- (void)xcmd:(NSString *)cmd noderange:(NSString *)nr subcommand:(NSString *)subCmd;
+- (void)processxCATData:(NSNotification *)notification;
 
 @end

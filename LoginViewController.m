@@ -16,6 +16,8 @@
 
 
 
+
+
 @implementation LoginViewController
 
 @synthesize signInButton;
@@ -89,7 +91,9 @@
     
     // Put this at the bottom
     UILabel *loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 110, 135, 25)];
+    [loadingLabel setAdjustsFontSizeToFitWidth:YES];
     loadingLabel.text = @"Connecting...";
+    loadingLabel.tag = 100;
     loadingLabel.backgroundColor = [UIColor clearColor];
     loadingLabel.textColor = [UIColor whiteColor];
     loadingLabel.textAlignment = UITextAlignmentCenter;
@@ -107,11 +111,7 @@
     // now do some work:
     xCATAppDelegate *theApp = (xCATAppDelegate *)[[UIApplication sharedApplication] delegate];
     // clean up if we've been down this road before.
-    if (theApp.xClient) {
-        theApp.xClient = nil;
-        [theApp.xClient release];
-    }
-    
+        
     if (theApp.xCATConnection) {
         [theApp.xCATConnection release];
         theApp.xCATConnection = nil;
@@ -119,13 +119,8 @@
     
     
     theApp.xCATConnection = [[Connection alloc] initWithUser:inputUser passwd:inputPassword host:inputServer port:3001];
-    
-    theApp.xClient = [[xCATClient alloc] initWithConnection:theApp.xCATConnection];
-    [theApp.xClient runCmd:@"nodels" noderange:nil arguments:nil];
-    
-    
-    
-    // save the user data that was just entered.
+    [theApp xcmd:@"nodels" noderange:nil subcommand:nil];
+
     [self saveLoginInfo ];
     
     
@@ -146,22 +141,57 @@
     
 }
 
-- (void)signUpForNotifications {
-    
-    // Sign up for notifications for xCAT events
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didGetxCATData) name:@"didGetxCATData" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didGetConnectionError) name:@"didGetConnectionError" object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didGetConnectionTimeOutError) name:@"didGetConnectionTimeOutError" object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didGetAuthenticationError) name:@"didGetAuthenticationError" object:nil];
-    
-    
+- (void)didGetCanNotResolveError {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        xCATAppDelegate *theApp = (xCATAppDelegate *)[[UIApplication sharedApplication] delegate];
+        NSString *message = [NSString stringWithFormat:@"Can not resolve %@", serverTextField.text];
+        UIAlertView *al = [[UIAlertView alloc] initWithTitle:@"Connection Error" message:message delegate:self cancelButtonTitle:@"Bummer" otherButtonTitles:nil, nil];
+        [al show];
+        [al release];
+        // have to troubleshoot here, but lets just see if it works:
+        signInButton.enabled = YES;
+        userTextField.enabled = YES;
+        serverTextField.enabled = YES;
+        passwordTextField.enabled = YES;
+        [loadingSquare removeFromSuperview];
+        theApp.nodelist = nil;
+    });
 }
 
 
+- (void)signUpForNotifications {
+    
+    // Sign up for notifications for xCAT events
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSendxCATData) name:@"didSendxCATData" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didGetxCATData) name:@"didLogIn" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didGetConnectionError) name:@"didGetConnectionError" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didGetConnectionTimeOutError) name:@"didGetConnectionTimeOutError" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didGetAuthenticationError) name:@"didGetAuthenticationError" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didGetCanNotResolveError) name:@"canNotResolve" object:nil];
+}
+
+- (void)unregisterNotifications {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"didSendxCATData" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"didLogIn" object:nil];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"didGetConnectionError" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"didGetAuthenticationError" object:nil];
+}
+
+// didSendxCATData is called when the server sends data to xCAT server and is now waiting for response.
+- (void)didSendxCATData {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UILabel *loadingLabel = (UILabel *)[loadingSquare viewWithTag:100];
+        loadingLabel.text = @"Waiting For Server Response..."; 
+    });
+}
+
+
+
 - (void)didGetAuthenticationError {
-    //dispatch_async(dispatch_get_main_queue(), ^{
     dispatch_async(dispatch_get_main_queue(), ^{
         //NSLog(@"made it here");
         
@@ -174,6 +204,9 @@
         UIAlertView *theAlert = [[UIAlertView alloc] initWithTitle:@"Authentication Error" message:@"User ID and Password combination was not recognized.  Please verify your settings." delegate:self cancelButtonTitle:@"Ok!" otherButtonTitles:nil, nil];
         [theAlert show];
         [theAlert release];
+        if (loadingSquare != nil) {
+            [loadingSquare removeFromSuperview];
+        }
     });
 }
 
@@ -181,8 +214,8 @@
 /* called when we get the xCAT data from the query.  This will flip the screen over and add xNavController */
 
 - (void)didGetxCATData {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"didGetxCATData" object:nil];
+    //dispatch_async(dispatch_get_main_queue(), ^{
+        
         
         //  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didGetxCATData) name:@"didGetxCATData" object:nil];
 
@@ -198,24 +231,8 @@
         passwordTextField.text = nil;
         
         
-        // create a new parser
-        xCATAppDelegate *theApp = (xCATAppDelegate *)[[UIApplication sharedApplication] delegate];
-    
-        [theApp.xParser release];
-        theApp.xParser = [[xCATParser alloc] init];
-        [theApp.xParser start:theApp.xClient.theOutput];
-        theApp.nodelist = nil;
-        [theApp.nodelist release];
-      
-        if (theApp.xParser.thereAreErrors) {
-            // there are errors so finish execution.  Don't proceed.
-            return;
-        }
-        
-        
-        [theApp createNodeList];
-        //theApp.nodelist = theApp.xParser.nodes;
-        
+        [self unregisterNotifications ];        
+       
     
         // Get everything ready for animation to transition to the node list.
         
@@ -224,7 +241,7 @@
         
         UINavigationController *theController = [[UINavigationController alloc] initWithRootViewController:xViewController];
         
-        // add information bar:
+        // add flip button:
         UIBarButtonItem *flipButton = [[UIBarButtonItem alloc] 
                                        initWithTitle:@"LogOut"                                            
                                        style:UIBarButtonItemStyleBordered 
@@ -236,6 +253,10 @@
         
         [flipButton release];
         
+        
+        
+        
+        
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:1.0];
         [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight
@@ -246,10 +267,10 @@
         
         [UIView commitAnimations];
         
-        [theController release];
-        [xViewController release];
+        // [theController release];
+        //[xViewController release];
      
-    });
+   // });
 
     
 }
@@ -258,17 +279,14 @@
 - (IBAction)logOut { 
     
     xCATAppDelegate *theApp = (xCATAppDelegate *)[[UIApplication sharedApplication] delegate];
-    [theApp.xClient closeConnection];
-    
+
     theApp.nodelist = nil;
-    theApp.xClient = nil;
+   
     theApp.xCATConnection = nil;
-    theApp.xParser = nil;
+
     
     [theApp.nodelist release];
-    [theApp.xClient release];
     [theApp.xCATConnection release];
-    [theApp.xParser release];
     
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:1.0];
@@ -286,7 +304,9 @@
 - (void)didGetConnectionError {
     dispatch_async(dispatch_get_main_queue(), ^{
         xCATAppDelegate *theApp = (xCATAppDelegate *)[[UIApplication sharedApplication] delegate];
-    
+        UIAlertView *al = [[UIAlertView alloc] initWithTitle:@"Connection Error" message:@"There seems to be some issue with your xCAT server" delegate:self cancelButtonTitle:@"Bummer" otherButtonTitles:nil, nil];
+        [al show];
+        [al release];
         // have to troubleshoot here, but lets just see if it works:
         signInButton.enabled = YES;
         userTextField.enabled = YES;
@@ -310,13 +330,13 @@
             [loadingSquare removeFromSuperview];
             loadingSquare = nil;
         }
-        xCATAppDelegate *theApp = (xCATAppDelegate *)[[UIApplication sharedApplication] delegate];
+        //xCATAppDelegate *theApp = (xCATAppDelegate *)[[UIApplication sharedApplication] delegate];
         
-        NSString *tErrorMessage = [NSString stringWithFormat:@"Could not connect to xCAT server.  Verify %@ is reachable from this network", theApp.xClient.myConn.host];
+       /* NSString *tErrorMessage = [NSString stringWithFormat:@"Could not connect to xCAT server.  Verify %@ is reachable from this network", theApp.xClient.myConn.host];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Connection Time out!" message:tErrorMessage delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [alert show];
         [alert release];
-        
+        */
     });
 }
 
@@ -360,12 +380,13 @@
     
     [super viewDidLoad];
     
-    // Sign up for notifications just the first time!
-    [self signUpForNotifications];
+    
     
     // load up the last server and login entered
     NSString *filePath = [self dataFilePath];
-    NSLog(@"filepath: %@", filePath);
+   /* if (DEBUG) {
+        NSLog(@"filepath: %@", filePath);
+    } */
     if([[NSFileManager defaultManager] fileExistsAtPath:filePath]){
         NSDictionary *dic = [[NSDictionary alloc] initWithContentsOfFile:filePath];
         savedServer = [dic valueForKey:@"serverInfo"];
@@ -376,6 +397,11 @@
     self.signInTable.backgroundColor = [UIColor clearColor];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    // Sign up for notifications just the first time!
+    [self signUpForNotifications];
+    [super viewDidAppear:animated];
+}
 
 - (void)viewDidUnload
 {
@@ -511,19 +537,8 @@
     //cell.textLabel.textColor = [UIColor blackColor];
     
     cell.backgroundColor = [UIColor whiteColor];
-    //cell.backgroundView.backgroundColor = [UIColor whiteColor];
-    //cell.backgroundView.opaque = YES;
-    /*
-    UIView *tCellView = [[UIView alloc] initWithFrame:cell.window.frame];
-    tCellView.backgroundColor = [UIColor whiteColor];
-    cell.backgroundView = tCellView;
-    [tCellView release];
-    */
-     
-     /*cell.backgroundView.backgroundColor = [UIColor whiteColor];
-    cell.backgroundColor = [UIColor clearColor];
-    */
-     return cell;
+   
+    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

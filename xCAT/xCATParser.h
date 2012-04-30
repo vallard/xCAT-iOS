@@ -8,15 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
+@class  xCATNode;
 @interface xCATParser : NSObject <NSXMLParserDelegate> {
     NSXMLParser *xmlParser;
     NSMutableString *currentElement;
-    NSString *currentNode;
-    NSMutableArray *nodes;
+    xCATNode *xNode;
+    NSMutableArray *xNodes;
     BOOL thereAreErrors;
 }
 
-@property (retain, nonatomic) NSMutableArray *nodes;
+@property (retain, nonatomic) NSMutableArray *xNodes;
+
 @property ( nonatomic) BOOL thereAreErrors;
 
 
